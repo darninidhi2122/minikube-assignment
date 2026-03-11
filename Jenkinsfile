@@ -7,6 +7,7 @@ pipeline {
 
   parameters {
     booleanParam(name: 'AUTO_APPLY', defaultValue: true, description: 'Apply Terraform automatically')
+    booleanParam(name: 'DESTROY', defaultValue: false, description: 'Destroy infrastructure instead of apply')
   }
 
   environment {
@@ -29,6 +30,9 @@ pipeline {
     }
 
     stage('Terraform Apply') {
+      when {
+        expression { return !params.DESTROY }
+      }
       steps {
         dir('infra') {
           script {
@@ -39,7 +43,21 @@ pipeline {
       }
     }
 
+    stage('Terraform Destroy') {
+      when {
+        expression { return params.DESTROY }
+      }
+      steps {
+        dir('infra') {
+          sh 'terraform destroy -auto-approve -var-file=terraform.tfvars'
+        }
+      }
+    }
+
     stage('Ansible Configure') {
+      when {
+        expression { return !params.DESTROY }
+      }
       steps {
         withCredentials([file(credentialsId: 'ssh-private-key', variable: 'ANSIBLE_KEY_FILE')]) {
           dir('ansible') {
@@ -50,6 +68,9 @@ pipeline {
     }
 
     stage('Smoke Test') {
+      when {
+        expression { return !params.DESTROY }
+      }
       steps {
         withCredentials([file(credentialsId: 'ssh-private-key', variable: 'ANSIBLE_KEY_FILE')]) {
           dir('ansible') {
