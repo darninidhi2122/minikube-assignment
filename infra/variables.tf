@@ -18,7 +18,7 @@ variable "instance_name" {
 
 variable "key_name" {
   type        = string
-  default     = "Ansible"
+  default     = "nidhi-outlook(n.v)"
   description = "Existing AWS key pair name used to access the instance."
 }
 
