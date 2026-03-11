@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "my-tf-test-bucket-2082026"
+    bucket         = "kubecoin-terraform-state-bucket-nidhi"
     key            = "minikube/terraform.tfstate"
-    region         = "eu-north-1"
-    dynamodb_table = "backend_terrform-statelock"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-lock-table"
     encrypt        = true
   }
 }
