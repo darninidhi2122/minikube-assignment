@@ -27,6 +27,7 @@
           - socat
           - tar
         state: present
+        allowerasing: true
 
     - name: Enable and start Docker
       ansible.builtin.systemd:
