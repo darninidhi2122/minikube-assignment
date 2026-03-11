@@ -1,5 +1,5 @@
-aws_region       = "eu-north-1"
+aws_region       = "us-east-1"
 instance_type    = "c7i-flex.large"
 instance_name    = "minikube-control"
-key_name         = "Ansible"
+key_name         = "nidhi-outlook(n.v)"
 allowed_ssh_cidr = "0.0.0.0/0"
